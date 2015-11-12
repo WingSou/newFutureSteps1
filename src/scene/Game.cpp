@@ -7,7 +7,8 @@ Game::Game()
 
 Game::~Game()
 {
-
+	delete c_player;
+	delete c_map;
 }
 
 void Game::SetUP()
@@ -16,6 +17,10 @@ void Game::SetUP()
 	game_end = false;
 	pos = Vec2f::Zero();
 	size = Vec2f(32, 32);
+
+	c_player = new Player;
+	c_enemy = new Enemy;
+	c_map = new Map;
 }
 
 void Game::UpDate()
@@ -34,6 +39,9 @@ void Game::UpDate()
 
 		break;
 	case MAIN:
+
+		c_map->UpDate();
+		c_player->Move();
 
 		if (App::env->isPushKey(GLFW_KEY_ENTER)){
 			scene_switch = FADE_OUT;
@@ -66,7 +74,8 @@ void Game::Draw()
 		break;
 	case MAIN:
 
-		App::env->bgColor(Color::white);
+		c_map->Draw();
+		c_player->Draw();
 
 		break;
 	case FADE_OUT:
