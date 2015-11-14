@@ -1,4 +1,3 @@
-
 #include <list>
 #include <vector>
 #include <memory>

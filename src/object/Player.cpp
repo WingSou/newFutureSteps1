@@ -3,8 +3,8 @@
 
 Player::Player(){
 	pos = Vec2f(0, 0);
-	size = Vec2f(200, 200);
-	speed = 10.0f;
+	size = Vec2f(32, 32);
+	speed = 3.0f;
 }
 
 //•`‰æ—p
