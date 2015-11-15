@@ -1,8 +1,8 @@
 #pragma once
 #include "Title.h"
+#include "Menu.h"
 #include "Game.h"
 #include "Result.h"
-
 
 class SceneManager
 {
@@ -17,6 +17,7 @@ public:
 private:
 
 	Title* c_title;
+	Menu* c_menu;
 	Game* c_game;
 	Result* c_result;
 
