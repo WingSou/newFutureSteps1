@@ -4,7 +4,7 @@
 class Character{
   public:
 	    
-protected:
+  protected:
 	  Vec2f pos;
 	  Vec2f size;
 	  float speed;
