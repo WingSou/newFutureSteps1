@@ -1,5 +1,5 @@
 #pragma once
-#include "../basicrelated/Common.h"
+#include "../basicrelated/Fade.h"
 
 enum ProcessScene
 {
@@ -12,6 +12,7 @@ enum ProcessScene
 enum ManagerScene
 {
 	TITLE,
+	MENU,
 	GAME_MAIN,
 	RESULT
 };
@@ -22,5 +23,5 @@ public:
 	
 	Vec2f pos;
 	Vec2f size;
-
+	Font font = ("res/meiryo.ttc");
 };
