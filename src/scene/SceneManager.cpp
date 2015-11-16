@@ -8,6 +8,7 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {
 	delete c_title;
+	delete c_menu;
 	delete c_game;
 	delete c_result;
 }
@@ -16,6 +17,7 @@ void SceneManager::SetUp()
 {
 	scene_switch = TITLE;
 	c_title = new Title;
+	c_menu = new Menu;
 	c_game = new Game;
 	c_result = new Result;
 }
@@ -29,8 +31,18 @@ void SceneManager::UpDate()
 		c_title->UpDate();
 
 		if (c_title->title_end == true){
-			scene_switch = GAME_MAIN;
 			c_title->SetUp();
+			scene_switch = MENU;
+		}
+
+		break;
+	case MENU:
+
+		c_menu->UpDate();
+
+		if (c_menu->menu_end == true){
+			c_menu->SetUp();
+			scene_switch = GAME_MAIN;
 		}
 
 		break;
@@ -39,8 +51,8 @@ void SceneManager::UpDate()
 		c_game->UpDate();
 
 		if (c_game->game_end == true){
+			c_game->SetUp();
 			scene_switch = RESULT;
-			c_game->SetUP();
 		}
 
 		break;
@@ -49,8 +61,8 @@ void SceneManager::UpDate()
 		c_result->UpDate();
 
 		if (c_result->result_end == true){
-			scene_switch = TITLE;
 			c_result->SetUp();
+			scene_switch = TITLE;
 		}
 
 		break;
@@ -68,6 +80,11 @@ void SceneManager::Draw()
 		
 		c_title->Draw();
 		
+		break;
+	case MENU:
+
+		c_menu->Draw();
+
 		break;
 	case GAME_MAIN:
 

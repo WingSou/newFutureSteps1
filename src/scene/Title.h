@@ -16,6 +16,7 @@ public:
 
 private:
 
+	Fade* fade;
 	Font font;
 	Texture title_logo, title_logo2;
 	Media title_bgm;
