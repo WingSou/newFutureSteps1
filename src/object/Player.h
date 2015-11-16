@@ -4,9 +4,11 @@
 class Player : public Character
 {
 public:
-	Player();        //インストラクタ
-	void Draw();     //描画用
-	void Move();     //移動用
-	Vec2f getPos();  //ゲッター
-	//Void setpos();  //セッター
+	Player();        
+	void Draw();     
+	void Move(Vec2f block_pos, Vec2f block_size);     
+	void UpDate(Vec2f block_pos, Vec2f block_size);   
+	Vec2f getPos(); 
+	Vec2f getSize();
+
 };
