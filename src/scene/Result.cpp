@@ -7,15 +7,18 @@ Result::Result()
 
 Result::~Result()
 {
-
+	delete fade;
 }
 
 void Result::SetUp()
 {
-	scene_switch = MAIN;
+	scene_switch = MUSIC_START;
 	result_end = false;
 	pos = Vec2f::Zero();
 	size = Vec2f(32, 32);
+	
+	fade = new Fade;
+	font.size(50);
 }
 
 void Result::UpDate()
@@ -30,7 +33,9 @@ void Result::UpDate()
 	case FADE_IN:
 		//---フェードイン処理---//
 
-		scene_switch = MAIN;
+		if (fade->FadeIn(0.02f, 0, 0, 0)){
+			scene_switch = MAIN;
+		}
 
 		break;
 	case MAIN:
@@ -42,8 +47,9 @@ void Result::UpDate()
 		break;
 	case FADE_OUT:
 		//---フェードアウト処理---//
-
-		result_end = true;
+		if (fade->FadeOut(0.02f, 0, 0, 0)){
+			result_end = true;
+		}
 
 		break;
 	default:
@@ -53,28 +59,7 @@ void Result::UpDate()
 
 void Result::Draw()
 {
-	switch (scene_switch){
-	case MUSIC_START:
-
-
-
-		break;
-	case FADE_IN:
-
-
-
-		break;
-	case MAIN:
-
-		App::env->bgColor(Color::white);
-
-		break;
-	case FADE_OUT:
-
-
-
-		break;
-	default:
-		break;
-	}
+	App::env->bgColor(Color::white);
+	font.draw("リザルト画面", Vec2f(-150, 500), Color::black);
+	fade->Draw();
 }

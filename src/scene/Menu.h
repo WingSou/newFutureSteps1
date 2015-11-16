@@ -1,24 +1,19 @@
 #pragma once
 #include "SceneCommon.h"
 
-class Result : public SceneCommon
+class Menu : public SceneCommon
 {
 public:
 
-	Result();
-	~Result();
-
+	Menu();
 	void UpDate();
 	void Draw();
 	void SetUp();
 
-	bool result_end;
-
+	bool menu_end;
 private:
-	
-	Fade* fade;
-	Texture result_logo;
-	Media result_bgm;
-	ProcessScene scene_switch;
 
+	Fade* fade;
+	ProcessScene scene_switch;
+	
 };
