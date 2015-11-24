@@ -15,7 +15,6 @@ void Player::Draw()
 
 void Player::Move(Vec2f block_pos, Vec2f block_size)
 {
-
 	if (App::env->isPressKey('W')) {
 		pos.y() += speed;
 		if (isHitCircle(pos,size,block_pos,block_size)){
@@ -40,8 +39,11 @@ void Player::Move(Vec2f block_pos, Vec2f block_size)
 			pos.x() += speed;
 		}
 	}
+}
 
-
+void Player::UpDate(Vec2f block_pos, Vec2f block_size)
+{
+	Move(block_pos, block_size);
 }
 
 Vec2f Player::getPos()
@@ -53,9 +55,3 @@ Vec2f Player::getSize()
 {
 	return size;
 }
-
-void Player::UpDate(Vec2f block_pos, Vec2f block_size)
-{
-	Move(block_pos, block_size);
-}
-
