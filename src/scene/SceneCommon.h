@@ -1,5 +1,6 @@
 #pragma once
 #include "../basicrelated/Fade.h"
+#include "../basicrelated/CountTime.h"
 
 enum ProcessScene
 {
@@ -24,4 +25,5 @@ public:
 	Vec2f pos;
 	Vec2f size;
 	Font font = ("res/meiryo.ttc");
+	TimeCount time;
 };

@@ -2,7 +2,7 @@
 #include "SceneCommon.h"
 #include "../object/Player.h"
 #include "../object/Enemy.h"
-#include "../object/Map.h"
+#include "../map/Map.h"
 
 class Game : public SceneCommon
 {
@@ -14,19 +14,22 @@ public:
 	void UpDate();
 	void Draw();
 	void SetUp();
-
+	void EnemyUpDate();
 	bool game_end;
 
 private:
 
 	Player* c_player;
-	Enemy* c_enemy;
 	Map* c_map;
-	Fade* fade;
+	Fade* c_fade;
+
+	std::list<Enemy*> enemy;
 
 	Texture game_logo;
 	Media game_bgm;
 	ProcessScene scene_switch;
+	
+	bool is_pause;
 
+	
 };
-

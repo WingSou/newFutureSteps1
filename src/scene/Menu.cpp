@@ -11,7 +11,29 @@ void Menu::SetUp()
 	scene_switch = MUSIC_START;
 	menu_end = false;
 	fade = new Fade;
+	botten_pos = Vec3f(-250, 450, 50); //zは三角形の頂点の変更用
+	botten_end = Vec2f(400, 450);  //xが最小値、yが最大値
 }
+
+void Menu::Move()
+{
+	if (botten_pos.y() > botten_end.y()){
+		botten_pos.y() = botten_pos.x();
+	}
+
+	if (botten_pos.y() < botten_end.x()){
+		botten_pos.y() = botten_end.y();
+	}
+
+	if (App::env->isPushKey(GLFW_KEY_UP)){
+		botten_pos.y() = botten_end.y();
+	}
+
+	if (App::env->isPushKey(GLFW_KEY_DOWN)){
+		botten_pos.y() = botten_end.x();
+	}
+}
+
 
 void Menu::UpDate()
 {
@@ -31,10 +53,22 @@ void Menu::UpDate()
 		
 		break;
 	case MAIN:
+
+		Move();
 		
-		if (App::env->isPushKey(GLFW_KEY_ENTER)){
-			scene_switch = FADE_OUT;
+		//ゲームモード時
+		if (botten_pos.y() == botten_end.y()){
+			if (App::env->isPushKey(GLFW_KEY_ENTER)){
+				scene_switch = FADE_OUT;
+			}
 		}
+
+		//チュートリアルモード時
+		//if (botten_pos.y() == botten_end.x()){
+			//if (App::env->isPushKey(GLFW_KEY_ENTER)){
+				
+			//}
+		//}
 		
 		break;
 	case FADE_OUT:
@@ -52,6 +86,9 @@ void Menu::UpDate()
 void Menu::Draw()
 {
 	font.draw("メニュー画面", Vec2f(-150,500),Color::black);
+	font.draw("GAME MODE", Vec2f(-150, 400), Color::gray);
+	font.draw("TUTORIAL MODE", Vec2f(-150, 350), Color::gray);
+	drawFillTriangle(botten_pos.x(), botten_pos.y(), (botten_pos.x() + botten_pos.z()), (botten_pos.y() - (botten_pos.z()/2)), botten_pos.x(), (botten_pos.y() - botten_pos.z()), Color::red);  //選択用矢印
 
 	fade->Draw();
 }
