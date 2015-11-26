@@ -1,7 +1,5 @@
 #pragma once
 #include "../basicrelated/Common.h"
-#include "../object/Player.h"
-#include "../object/Enemy.h"
 
 enum Distance
 {
