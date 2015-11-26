@@ -1,49 +1,74 @@
 #include "Player.h"
 #include "../basicrelated/Collison.h"
 
-Player::Player(){
+Player::Player() :
+player_image("res/player.png")
+{
+	SetUp();
+}
+
+Player::~Player()
+{
+
+}
+
+void Player::SetUp()
+{
 	pos = Vec2f(0, 0);
-	size = Vec2f(32, 32);
-	speed = 3.0f;
+	size = Vec2f(128, 128);
+	speed = Vec2f(3.0f, 3.0f);
+	animation_count = 0;
+	dir = Direction::MOVE_DOWN;
+}
+
+void Player::Move()
+{
+	if (App::env->isPressKey('W')) {
+
+		pos.y() += speed.y();
+		dir = Direction::MOVE_UP;
+
+		if (pos.y() + size.y() > HEIGHT / 2){
+			pos.y() -= speed.y();
+		}
+	}
+	if (App::env->isPressKey('S')) {
+
+		pos.y() -= speed.y();
+		dir = Direction::MOVE_DOWN;
+
+		if (pos.y() < -HEIGHT / 2){
+			pos.y() += speed.y();
+		}
+	}
+	if (App::env->isPressKey('D')) {
+
+		pos.x() += speed.x();
+		dir = Direction::MOVE_RIGHT;
+
+		if (pos.x() + size.x() > WIDTH / 2){
+			pos.x() -= speed.x();
+		}
+	}
+	if (App::env->isPressKey('A')) {
+
+		pos.x() -= speed.x();
+		dir = Direction::MOVE_LEFT;
+
+		if (pos.x() < -WIDTH / 2){
+			pos.x() += speed.x();
+		}
+	}
+}
+
+void Player::UpDate()
+{
+	Move();
 }
 
 void Player::Draw()
 {
-	drawFillBox(pos.x(), pos.y(), size.x(), size.y(), Color::cyan);
-}
-
-
-void Player::Move(Vec2f block_pos, Vec2f block_size)
-{
-	if (App::env->isPressKey('W')) {
-		pos.y() += speed;
-		if (isHitCircle(pos,size,block_pos,block_size)){
-			pos.y() -= speed;
-		}
-	}
-	if (App::env->isPressKey('S')) {
-		pos.y() -= speed;
-		if (isHitCircle(pos, size, block_pos, block_size)){
-			pos.y() += speed;
-		}
-	}
-	if (App::env->isPressKey('D')) {
-		pos.x() += speed;
-		if (isHitCircle(pos, size, block_pos, block_size)){
-			pos.x() -= speed;
-		}
-	}
-	if (App::env->isPressKey('A')) {
-		pos.x() -= speed;
-		if (isHitCircle(pos, size, block_pos, block_size)){
-			pos.x() += speed;
-		}
-	}
-}
-
-void Player::UpDate(Vec2f block_pos, Vec2f block_size)
-{
-	Move(block_pos, block_size);
+	clip.Animation(pos, size, player_image, dir, animation_count);
 }
 
 Vec2f Player::getPos()

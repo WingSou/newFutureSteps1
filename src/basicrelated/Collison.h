@@ -1,6 +1,15 @@
 #pragma once
 #include "Common.h"
 
+enum Direction
+{
+	MOVE_RIGHT,
+	MOVE_LEFT,
+	MOVE_UP,
+	MOVE_DOWN
+};
+
+
 //円同士の当たり判定
 //円１のポジション		Vec2f型
 //円１のサイズ			Vec2f型

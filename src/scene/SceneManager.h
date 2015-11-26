@@ -15,6 +15,8 @@ public:
 	void Draw();
 
 private:
+	
+	bool is_paused;
 
 	Title* c_title;
 	Menu* c_menu;

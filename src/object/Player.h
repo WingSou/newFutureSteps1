@@ -1,14 +1,24 @@
 #pragma once
 #include "Character.h"
+#include "../Attack/Attack.h"
 
 class Player : public Character
 {
 public:
-	Player();        
+
+	Player();
+	~Player();
+
+	void SetUp();
 	void Draw();     
-	void Move(Vec2f block_pos, Vec2f block_size);     
-	void UpDate(Vec2f block_pos, Vec2f block_size);   
+	void Move();     
+	void UpDate();   
 	Vec2f getPos(); 
 	Vec2f getSize();
 
+private:
+
+	Texture player_image;
+	Direction dir;
+	int animation_count;
 };

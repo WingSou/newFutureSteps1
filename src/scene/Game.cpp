@@ -8,8 +8,9 @@ Game::Game()
 Game::~Game()
 {
 	delete c_player;
+
 	delete c_map;
-	delete fade;
+	delete c_fade;
 }
 
 void Game::SetUp()
@@ -19,13 +20,46 @@ void Game::SetUp()
 	pos = Vec2f::Zero();
 	size = Vec2f(32, 32);
 
-	fade = new Fade;
+	c_fade = new Fade;
 
 	c_player = new Player;
-	c_enemy = new Enemy;
+
 	c_map = new Map;
 
+	is_pause = false;
+
 	font.size(50);
+}
+
+//エネミーが撃破されたときの削除処理
+bool enemyErase(Enemy* enemy)
+{
+	return !enemy->isActive();
+}
+
+void Game::EnemyUpDate()
+{
+	if (App::env->isPushKey('O')){
+		enemy.push_back(new Enemy_01(Vec2f(30, 30), Vec2f(128, 128)));
+		enemy.push_back(new Enemy_02(Vec2f(130, 130), Vec2f(128, 128)));
+		enemy.push_back(new Enemy_03(Vec2f(-30, -30), Vec2f(128, 128)));
+		//enemy.push_back(new Enemy_04(Vec2f(-30, 430), Vec2f(128, 128)));
+		//enemy.push_back(new Enemy_05(Vec2f(-830, -330), Vec2f(128, 128)));
+		//enemy.push_back(new Enemy_06(Vec2f(-730, -530), Vec2f(128, 128)));
+		//enemy.push_back(new Enemy_07(Vec2f(-630, 530), Vec2f(128, 128)));
+		//enemy.push_back(new Enemy_08(Vec2f(-530, 430), Vec2f(128, 128)));
+		//enemy.push_back(new Enemy_09(Vec2f(430, 330), Vec2f(128, 128)));
+	}
+
+	std::list<Enemy*>::iterator it = enemy.begin();
+
+	
+
+	while (it != enemy.end()){
+		(*it)->UpDate(c_player->getPos());
+		it++;
+	}
+	enemy.remove_if(enemyErase);
 }
 
 void Game::UpDate()
@@ -40,15 +74,40 @@ void Game::UpDate()
 	case FADE_IN:
 		//---フェードイン処理---//
 
-		if (fade->FadeIn(0.02f, 0, 0, 0)){
+		if (c_fade->FadeIn(0.02f, 0, 0, 0)){
 			scene_switch = MAIN;
 		}
 
 		break;
 	case MAIN:
 
-		c_map->UpDate();
-		c_player->Move();
+
+
+		//ポーズしてないときのゲーム中の処理はこの中にすべて書く
+		if (is_pause == false){
+
+			c_map->UpDate();
+
+			if(time.timeCounter(3.0f)){
+
+				c_player->UpDate();
+				EnemyUpDate();
+
+			
+				
+			}
+
+		}//-------------------------------------------------------
+
+		//ポーズしているときのゲーム中の処理はこの中に書く
+		if (is_pause == true){
+
+		}
+
+
+		if (App::env->isPushKey(GLFW_KEY_SPACE)){
+			is_pause = !true;
+		}
 
 		if (App::env->isPushKey(GLFW_KEY_ENTER)){
 			scene_switch = FADE_OUT;
@@ -58,7 +117,7 @@ void Game::UpDate()
 	case FADE_OUT:
 		//---フェードアウト処理---//
 
-		if (fade->FadeOut(0.02f, 0, 0, 0)){
+		if (c_fade->FadeOut(0.02f, 0, 0, 0)){
 			game_end = true;
 		}
 
@@ -72,6 +131,14 @@ void Game::Draw()
 {
 	c_map->Draw();
 	c_player->Draw();
+
+	std::list<Enemy*>::iterator it = enemy.begin();
+	while (it != enemy.end()){
+		(*it)->Draw();
+		it++;
+	}
+
+	c_fade->Draw();
 	font.draw("ゲーム画面", Vec2f(-150, 500), Color::black);
-	fade->Draw();
+	
 }

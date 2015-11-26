@@ -15,6 +15,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::SetUp()
 {
+	is_paused = false;
 	scene_switch = TITLE;
 	c_title = new Title;
 	c_menu = new Menu;
@@ -28,40 +29,60 @@ void SceneManager::UpDate()
 	{
 	case TITLE:
 
+
+
 		c_title->UpDate();
+
 
 		if (c_title->title_end == true){
 			c_title->SetUp();
+
+
 			scene_switch = MENU;
 		}
 
 		break;
 	case MENU:
 
+
 		c_menu->UpDate();
 
 		if (c_menu->menu_end == true){
 			c_menu->SetUp();
+
+
 			scene_switch = GAME_MAIN;
 		}
 
 		break;
 	case GAME_MAIN:
 
-		c_game->UpDate();
+		if (App::env->isPushKey(GLFW_KEY_SPACE)){
+			is_paused = !is_paused;
+		}
+
+		if (!is_paused){
+			c_game->UpDate();
+		}
+
 
 		if (c_game->game_end == true){
 			c_game->SetUp();
+
+
 			scene_switch = RESULT;
 		}
 
 		break;
 	case RESULT:
 
+
 		c_result->UpDate();
 
 		if (c_result->result_end == true){
 			c_result->SetUp();
+
+
 			scene_switch = TITLE;
 		}
 
@@ -77,9 +98,9 @@ void SceneManager::Draw()
 	switch (scene_switch)
 	{
 	case TITLE:
-		
+
 		c_title->Draw();
-		
+
 		break;
 	case MENU:
 
