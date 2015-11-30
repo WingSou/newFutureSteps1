@@ -11,6 +11,7 @@ public:
 	void SetUp();
 	void Move();
 
+	bool menu1;
 	bool menu_end;
 private:
 
