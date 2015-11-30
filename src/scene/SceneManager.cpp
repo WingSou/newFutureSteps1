@@ -9,6 +9,7 @@ SceneManager::~SceneManager()
 {
 	delete c_title;
 	delete c_menu;
+	delete c_tutorial;
 	delete c_game;
 	delete c_result;
 }
@@ -19,6 +20,7 @@ void SceneManager::SetUp()
 	scene_switch = TITLE;
 	c_title = new Title;
 	c_menu = new Menu;
+	c_tutorial = new Tutorial;
 	c_game = new Game;
 	c_result = new Result;
 }
@@ -50,8 +52,32 @@ void SceneManager::UpDate()
 		if (c_menu->menu_end == true){
 			c_menu->SetUp();
 
+			if (c_menu->menu1 == true){
+				scene_switch = GAME_MAIN;
+			}
 
-			scene_switch = GAME_MAIN;
+			if (c_menu->menu1 == false){
+				scene_switch = TUTORIAL;
+			}
+		}
+
+		break;
+	case TUTORIAL:
+
+		if (App::env->isPushKey(GLFW_KEY_SPACE)){
+			is_paused = !is_paused;
+		}
+
+		if (!is_paused){
+			c_tutorial->UpDate();
+		}
+
+
+		if (c_tutorial->tutorial_end == true){
+			c_tutorial->SetUp();
+
+
+			scene_switch = MENU;
 		}
 
 		break;
@@ -105,6 +131,11 @@ void SceneManager::Draw()
 	case MENU:
 
 		c_menu->Draw();
+
+		break;
+	case TUTORIAL:
+
+		c_tutorial->Draw();
 
 		break;
 	case GAME_MAIN:
