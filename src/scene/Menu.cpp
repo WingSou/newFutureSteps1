@@ -17,12 +17,12 @@ void Menu::SetUp()
 
 void Menu::Move()
 {
-	if (botten_pos.y() > botten_end.y()){
-		botten_pos.y() = botten_pos.x();
+	if (botten_pos.y() == botten_end.y()){
+		menu1 = true;
 	}
 
-	if (botten_pos.y() < botten_end.x()){
-		botten_pos.y() = botten_end.y();
+	if (botten_pos.y() == botten_end.x()){
+		menu1 = false;
 	}
 
 	if (App::env->isPushKey(GLFW_KEY_UP)){
@@ -57,18 +57,9 @@ void Menu::UpDate()
 		Move();
 		
 		//ゲームモード時
-		if (botten_pos.y() == botten_end.y()){
-			if (App::env->isPushKey(GLFW_KEY_ENTER)){
-				scene_switch = FADE_OUT;
-			}
+		if (App::env->isPushKey(GLFW_KEY_ENTER)){
+			scene_switch = FADE_OUT;
 		}
-
-		//チュートリアルモード時
-		//if (botten_pos.y() == botten_end.x()){
-			//if (App::env->isPushKey(GLFW_KEY_ENTER)){
-				
-			//}
-		//}
 		
 		break;
 	case FADE_OUT:
